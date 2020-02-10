@@ -2,9 +2,11 @@
   <div id="app">
     <c-header />
 
-    <div class="container">
-      <router-view />
-    </div>
+    <main class="main">
+      <div class="container">
+        <router-view />
+      </div>
+    </main>
   </div>
 </template>
 
@@ -21,4 +23,8 @@ export default {
 <style lang="scss">
 @import './assets/scss/bootstrap/custom.scss';
 @import './assets/scss/common.scss';
+
+.main {
+  margin-top: 50px;
+}
 </style>

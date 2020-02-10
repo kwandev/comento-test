@@ -1,8 +1,17 @@
 @charset 'utf-8';
 
+a {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
 .container {
   display: flex;
   flex-direction: column;
+  padding: 0;
   max-width: $contents-width;
 }
 
@@ -10,4 +19,9 @@
   .container {
     max-width: $contents-width-m;
   }
+}
+
+.emptybox {
+  background-color: pink;
+  min-height: 200px;
 }

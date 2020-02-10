@@ -9,7 +9,11 @@ import store from './store'
 
 import axios from 'axios'
 
+import GlobalComponents from './components/common'
+
 Vue.prototype.$axios = axios
+
+Vue.use(GlobalComponents)
 
 new Vue({
   router,
