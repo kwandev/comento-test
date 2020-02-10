@@ -1,0 +1,13 @@
+@charset 'utf-8';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: $contents-width;
+}
+
+@media screen and (max-width: $contents-width-m) {
+  .container {
+    max-width: $contents-width-m;
+  }
+}
