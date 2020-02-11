@@ -12,14 +12,15 @@ export default {
     block: {
       type: Boolean
     },
-    large: {
-      type: Boolean
+    size: {
+      type: String
     }
   },
   computed: {
     styleClass() {
       return {
-        large: this.large
+        lg: this.size === 'lg',
+        xs: this.size === 'xs'
       }
     }
   }
@@ -32,8 +33,15 @@ export default {
   border-radius: 5px;
 }
 
-.large {
+.lg {
   height: 60px;
   font-size: 1.375rem;
+}
+
+.xs {
+  padding: 0;
+  width: 48px;
+  height: 24px;
+  font-size: 0.8125rem;
 }
 </style>
