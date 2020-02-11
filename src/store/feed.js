@@ -1,13 +1,14 @@
 import Vue from 'vue'
 
 const state = {
-  category: [],
+  categories: [],
+  categoryFilter: [],
   feeds: [],
   loading: true,
   page: 0,
   lastPage: 0,
   limit: 10,
-  ord: 'asc',
+  ord: localStorage.getItem('ord') || 'asc',
   total: 0
 }
 
@@ -24,12 +25,18 @@ const getters = {
   ord(state) {
     return state.ord
   },
-  category(state) {
-    return state.category
+  categories(state) {
+    return state.categories
+  },
+  categoryFilter(state) {
+    return state.categoryFilter
   }
 }
 
 const mutations = {
+  setCategories(state, categories) {
+    state.categories = categories
+  },
   setFeeds(state, list) {
     const { data, total, current_page, last_page } = list
     state.page = current_page
@@ -44,17 +51,16 @@ const mutations = {
   setLoading(state, loading) {
     state.loading = loading
   },
-  setCategory(state, category) {
-    state.category = category
-  },
   setOrd(state, ord) {
     state.ord = ord
+  },
+  setCategoryFilter(state, categoryFilter) {
+    state.categoryFilter = categoryFilter
   }
 }
 
 const actions = {
-  initFeeds({ commit }, params) {
-    commit('setOrd', params.ord || 'asc')
+  initFeeds({ commit }) {
     commit('setFeeds', {
       current_page: 0,
       total: 0,
@@ -76,12 +82,12 @@ const actions = {
         params: {
           page: state.page + 1,
           ord: state.ord,
-          category: state.category.map((item) => item.id),
+          category: state.categoryFilter,
           limit: state.limit
         }
       })
 
-      const categories = getters.category
+      const categories = getters.categories
       list.data.forEach((feed) => {
         const categoryName = categories.find((category) => category.id === feed.category_id).name
         feed.category_name = categoryName
@@ -93,13 +99,18 @@ const actions = {
       throw new Error(error)
     }
   },
-  async fetchCategory({ commit }) {
+  async fetchCategories({ commit }) {
     try {
       const {
         data: { list }
       } = await Vue.axios.get('/api/category')
 
-      commit('setCategory', list)
+      commit('setCategories', list)
+      const localStorageCategoryFilter = localStorage.getItem('categoryFilter')
+      commit(
+        'setCategoryFilter',
+        localStorageCategoryFilter ? localStorageCategoryFilter.split(',') : list.map((item) => item.id)
+      )
     } catch (error) {
       throw new Error(error)
     }

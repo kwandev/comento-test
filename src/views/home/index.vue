@@ -30,48 +30,7 @@
       </div>
     </section>
 
-    <b-modal id="modal_filter" ref="modal" centered @show="resetModal" @hidden="resetModal">
-      <template v-slot:modal-header="{ close }">
-        <h5 class="modal__title">필터</h5>
-        <btn icon class="close" @click="close()">
-          &times;
-        </btn>
-      </template>
-
-      <form ref="form" @submit.stop.prevent="handleSubmit">
-        <b-form-checkbox
-          id="checkbox-1"
-          v-model="status"
-          name="checkbox-1"
-          value="accepted"
-          unchecked-value="not_accepted"
-        >
-          I accept the terms and use
-        </b-form-checkbox>
-        <b-form-checkbox
-          id="checkbox-1"
-          v-model="status"
-          name="checkbox-1"
-          value="accepted"
-          unchecked-value="not_accepted"
-        >
-          I accept the terms and use
-        </b-form-checkbox>
-        <b-form-checkbox
-          id="checkbox-1"
-          v-model="status"
-          name="checkbox-1"
-          value="accepted"
-          unchecked-value="not_accepted"
-        >
-          I accept the terms and use
-        </b-form-checkbox>
-      </form>
-
-      <template v-slot:modal-footer>
-        <btn variant="primary" @click="handleOk">저장하기</btn>
-      </template>
-    </b-modal>
+    <modal-filter v-if="categories.length > 0" />
   </div>
 </template>
 
@@ -79,17 +38,17 @@
 import { mapState, mapGetters } from 'vuex'
 import Feed from '@/components/feed/feed'
 import Ads from '@/components/ads/ads'
+import ModalFilter from './modal/filter'
 
 export default {
   name: 'Home',
   components: {
     Feed,
-    Ads
+    Ads,
+    ModalFilter
   },
   data() {
-    return {
-      status: true
-    }
+    return {}
   },
   computed: {
     ...mapState('feed', {
@@ -97,7 +56,8 @@ export default {
       ord: 'ord'
     }),
     ...mapGetters('feed', {
-      feeds: 'feeds'
+      feeds: 'feeds',
+      categories: 'categories'
     }),
     ...mapGetters('ads', {
       ads: 'ads'
@@ -111,38 +71,33 @@ export default {
     }
   },
   methods: {
+    // 정렬 변경
     async changeOrd(ord) {
-      await this.$store.dispatch('feed/initFeeds', {
-        ord
-      })
+      localStorage.setItem('ord', ord)
+
+      this.$store.commit('feed/setOrd', ord)
+
+      await this.$store.dispatch('feed/initFeeds')
       this.getFeeds()
 
       await this.$store.dispatch('ads/initAds')
       this.getAds()
     },
+    // 피드 조회
     getFeeds() {
       this.$store.dispatch('feed/fetchFeeds')
     },
+    // 광고 조회
     getAds() {
       this.$store.dispatch('ads/fetchAds')
     },
     getAdsIndex(feedIndex) {
       const adIndex = (feedIndex + 1) / 3 - 1
       return adIndex
-    },
-    resetModal() {
-      console.log('reset')
-    },
-    handleOk() {
-      console.log('ok')
-      this.$bvModal.hide('modal_filter')
-    },
-    handleSubmit() {
-      console.log('handlesubmit')
     }
   },
   async created() {
-    await this.$store.dispatch('feed/fetchCategory')
+    await this.$store.dispatch('feed/fetchCategories')
     this.getFeeds()
     this.getAds()
   }
