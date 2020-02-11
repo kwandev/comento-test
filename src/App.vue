@@ -25,6 +25,12 @@ export default {
 @import './assets/scss/common.scss';
 
 .main {
-  margin-top: 50px;
+  padding-top: 70px;
+}
+
+@media screen and (max-width: $contents-width-m) {
+  .main {
+    padding-top: 45px;
+  }
 }
 </style>

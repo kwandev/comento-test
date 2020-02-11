@@ -51,6 +51,7 @@ export default {
 <style lang="scss" scoped>
 .home {
   display: flex;
+  padding-top: 50px;
 }
 
 .side {
@@ -115,8 +116,29 @@ export default {
 }
 
 @media screen and (max-width: $contents-width-m) {
+  .home {
+    padding-top: 0;
+    background-color: #f4f5f7;
+  }
+
   .side {
     display: none;
+  }
+
+  .home_contents {
+    width: 100%;
+
+    .link {
+      margin-bottom: 10px;
+    }
+  }
+
+  .filter_wrap {
+    margin: 0;
+    @include padding-m;
+    height: 44px;
+    border-bottom: 1px solid $secondary;
+    background-color: $white;
   }
 }
 </style>

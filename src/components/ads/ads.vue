@@ -5,7 +5,7 @@
     </div>
     <div class="ads_contents_wrap">
       <div class="ads__image">
-        <img src="http://placehold.it/310x180" alt="" />
+        <img src="http://placehold.it/600x180" alt="" />
       </div>
       <div class="ads__contents">
         <h2 class="card__title">
@@ -57,5 +57,18 @@ export default {
 }
 .card__contents {
   @include line-clamp(4);
+}
+
+@media screen and (max-width: $contents-width-m) {
+  .ads_contents_wrap {
+    flex-direction: column;
+  }
+  .ads__image {
+    margin-bottom: 16px;
+    width: 100%;
+  }
+  .ads__contents {
+    width: 100%;
+  }
 }
 </style>

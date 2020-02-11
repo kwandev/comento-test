@@ -28,4 +28,13 @@ export default {
 .card__contents {
   color: $gray-700;
 }
+
+@media screen and (max-width: $contents-width-m) {
+  .card {
+    padding: 20px 15px;
+    border: 0;
+    border-radius: 0;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.05);
+  }
+}
 </style>

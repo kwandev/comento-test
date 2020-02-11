@@ -1,5 +1,11 @@
 @charset 'utf-8';
 
+/* layout */
+@mixin padding-m() {
+  padding: 0 15px;
+}
+
+/* text */
 @mixin line-clamp($line) {
   display: -webkit-box;
   -webkit-box-orient: vertical;

@@ -7,8 +7,8 @@
     <divider />
     <div class="feed__write">
       <div class="feed__writer">이경환</div>
-      <divider vertical />
-      <div class="feed_date">2020--02-02</div>
+      <divider vertical class="display-none-m" />
+      <div class="feed_date display-none-m">2020--02-02</div>
     </div>
     <h2 class="card__title text-truncate">
       Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Ti Title
