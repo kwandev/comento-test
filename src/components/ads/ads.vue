@@ -1,20 +1,16 @@
 <template>
   <card>
-    <div class="ads__type">
-      sponsored
-    </div>
+    <div class="ads__type">sponsored</div>
     <div class="ads_contents_wrap">
       <div class="ads__image">
-        <img src="http://placehold.it/600x180" alt="" />
+        <img v-if="ad.id" :src="`https://cdn.comento.kr/assignment/${ad.img}`" :alt="ad.title" />
       </div>
       <div class="ads__contents">
         <h2 class="card__title">
-          Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Ti Title
-          Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Ti
+          {{ ad.title }}
         </h2>
         <div class="card__contents">
-          contents contents contents contents contents contents contents contents contents contents contents
-          con…contents contents contents contents contents contents contents contents contents contents contents con…
+          {{ ad.contents }}
         </div>
       </div>
     </div>
@@ -28,6 +24,13 @@ export default {
   name: 'Ads',
   components: {
     Card
+  },
+  props: {
+    ad: {
+      type: Object,
+      required: true,
+      default: () => ({})
+    }
   }
 }
 </script>
@@ -50,6 +53,10 @@ export default {
 .ads__contents {
   flex: none;
   width: 463px;
+
+  .card__title {
+    margin-bottom: 11px;
+  }
 }
 
 .card__title {
@@ -69,6 +76,10 @@ export default {
   }
   .ads__contents {
     width: 100%;
+
+    .card__title {
+      margin-bottom: 6px;
+    }
   }
 }
 </style>

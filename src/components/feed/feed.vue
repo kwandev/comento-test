@@ -63,4 +63,8 @@ export default {
     color: $gray-700;
   }
 }
+
+.card__title {
+  margin-bottom: 6px;
+}
 </style>

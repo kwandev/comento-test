@@ -13,17 +13,19 @@
       </div>
       <div
         class="feed_list"
-        v-infinite-scroll="loadMore"
+        v-infinite-scroll="getFeeds"
         infinite-scroll-disabled="loading"
         infinite-scroll-distance="10"
       >
-        <template v-for="feed in feeds">
+        <template v-for="(feed, index) in feeds">
           <a href="#" class="link" :key="feed.id">
             <feed :feed="feed" />
           </a>
-          <!-- <a v-if="(index + 1) % 3 === 0" href="#" class="link" :key="index">
-            <ads></ads>
-          </a> -->
+          <template v-if="(index + 1) % 3 === 0">
+            <a href="#" class="link" :key="`ads_${index}`">
+              <ads ref="ads" :ad="ads[getAdsIndex(index)]"></ads>
+            </a>
+          </template>
         </template>
       </div>
     </section>
@@ -76,13 +78,13 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 import Feed from '@/components/feed/feed'
-// import Ads from '@/components/ads/ads'
+import Ads from '@/components/ads/ads'
 
 export default {
   name: 'Home',
   components: {
-    Feed
-    // Ads
+    Feed,
+    Ads
   },
   data() {
     return {
@@ -92,23 +94,41 @@ export default {
   computed: {
     ...mapState('feed', {
       loading: 'loading',
-      ord: 'ord',
-      page: 'page',
-      lasPage: 'lastPage'
+      ord: 'ord'
     }),
     ...mapGetters('feed', {
       feeds: 'feeds'
+    }),
+    ...mapGetters('ads', {
+      ads: 'ads'
     })
+  },
+  watch: {
+    'feeds.length'(value) {
+      if (value !== 0 && value % 30 === 0) {
+        this.getAds()
+      }
+    }
   },
   methods: {
     async changeOrd(ord) {
       await this.$store.dispatch('feed/initFeeds', {
         ord
       })
+      this.getFeeds()
+
+      await this.$store.dispatch('ads/initAds')
+      this.getAds()
+    },
+    getFeeds() {
       this.$store.dispatch('feed/fetchFeeds')
     },
-    async loadMore() {
-      await this.$store.dispatch('feed/fetchFeeds')
+    getAds() {
+      this.$store.dispatch('ads/fetchAds')
+    },
+    getAdsIndex(feedIndex) {
+      const adIndex = (feedIndex + 1) / 3 - 1
+      return adIndex
     },
     resetModal() {
       console.log('reset')
@@ -123,7 +143,8 @@ export default {
   },
   async created() {
     await this.$store.dispatch('feed/fetchCategory')
-    this.loadMore()
+    this.getFeeds()
+    this.getAds()
   }
 }
 </script>
