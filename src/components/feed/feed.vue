@@ -1,22 +1,20 @@
 <template>
   <card>
     <div class="feed__type">
-      <div class="feed__category">category네임</div>
-      <div class="feed__id">i디</div>
+      <div class="feed__category">{{ feed.category_name }}</div>
+      <div class="feed__id">{{ feed.id }}</div>
     </div>
     <divider />
     <div class="feed__write">
-      <div class="feed__writer">이경환</div>
+      <div class="feed__writer">{{ feed.user_id }}</div>
       <divider vertical class="display-none-m" />
-      <div class="feed_date display-none-m">2020--02-02</div>
+      <div class="feed_date display-none-m">{{ feed.created_at }}</div>
     </div>
     <h2 class="card__title text-truncate">
-      Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Ti Title
-      Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Ti
+      {{ feed.title }}
     </h2>
     <div class="card__contents text-truncate">
-      contents contents contents contents contents contents contents contents contents contents contents con…contents
-      contents contents contents contents contents contents contents contents contents contents con…
+      {{ feed.contents }}
     </div>
   </card>
 </template>
@@ -28,6 +26,13 @@ export default {
   name: 'Feed',
   components: {
     Card
+  },
+  props: {
+    feed: {
+      type: Object,
+      required: true,
+      default: () => ({})
+    }
   }
 }
 </script>

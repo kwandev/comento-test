@@ -1,5 +1,7 @@
 <template>
-  <b-button :block="block" :variant="variant" :class="styleClass" class="btn"><slot>버튼</slot></b-button>
+  <b-button :block="block" :variant="variant" :class="styleClass" @click="$emit('click')" class="btn"
+    ><slot>버튼</slot></b-button
+  >
 </template>
 
 <script>
@@ -8,6 +10,9 @@ export default {
   props: {
     variant: {
       type: String
+    },
+    icon: {
+      type: Boolean
     },
     block: {
       type: Boolean
@@ -20,7 +25,8 @@ export default {
     styleClass() {
       return {
         lg: this.size === 'lg',
-        xs: this.size === 'xs'
+        xs: this.size === 'xs',
+        icon: this.icon
       }
     }
   }
@@ -31,6 +37,18 @@ export default {
 .btn {
   height: 40px;
   border-radius: 5px;
+}
+
+.icon {
+  height: auto;
+  background: none;
+  border: 0;
+
+  &:active,
+  &:focus {
+    border: 0 !important;
+    box-shadow: none !important;
+  }
 }
 
 .lg {
