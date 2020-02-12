@@ -18,8 +18,6 @@ module.exports = {
       warnings: true,
       errors: true
     }
-  },
-  publicPath: process.env.NODE_ENV === 'production' ? '/comento-test/' : '/',
-  outputDir: 'docs'
+  }
   // productionSourceMap: false
 }
