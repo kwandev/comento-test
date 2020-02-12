@@ -11,9 +11,9 @@
       <b-form-checkbox
         v-for="category in categories"
         :key="category.id"
-        :id="`category_${category.id}`"
         v-model="filters"
         :name="`category_${category.id}`"
+        :id="`category_${category.id}`"
         :value="category.id"
       >
         {{ category.name }}
@@ -21,7 +21,7 @@
     </form>
 
     <template v-slot:modal-footer>
-      <btn variant="primary" @click="handleOk">저장하기</btn>
+      <btn variant="primary" @click="handleOk" class="btn__save">저장하기</btn>
     </template>
   </b-modal>
 </template>
@@ -72,4 +72,11 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+@media screen and (max-width: $contents-width-m) {
+  .btn__save {
+    display: block;
+    width: 100%;
+  }
+}
+</style>
