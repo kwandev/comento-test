@@ -9,12 +9,16 @@ const state = {
   lastPage: 0,
   limit: 10,
   ord: localStorage.getItem('ord') || 'asc',
-  total: 0
+  total: 0,
+  feedDetail: {}
 }
 
 const getters = {
   feeds(state) {
     return state.feeds
+  },
+  feedDetail(state) {
+    return state.feedDetail
   },
   loading(state) {
     return state.loading
@@ -47,6 +51,9 @@ const mutations = {
     } else {
       state.feeds = data
     }
+  },
+  setFeedDetail(state, detail) {
+    state.feedDetail = detail
   },
   setLoading(state, loading) {
     state.loading = loading
@@ -95,6 +102,21 @@ const actions = {
 
       commit('setLoading', false)
       commit('setFeeds', list)
+    } catch (error) {
+      throw new Error(error)
+    }
+  },
+  async fetchFeedDetail({ commit }, id) {
+    try {
+      const {
+        data: { info }
+      } = await Vue.axios.get('/api/view', {
+        params: {
+          id: id
+        }
+      })
+
+      commit('setFeedDetail', info)
     } catch (error) {
       throw new Error(error)
     }

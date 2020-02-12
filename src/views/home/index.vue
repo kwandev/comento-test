@@ -18,11 +18,11 @@
         infinite-scroll-distance="10"
       >
         <template v-for="(feed, index) in feeds">
-          <a href="#" class="link" :key="feed.id">
+          <router-link :to="{ name: 'Detail', params: { id: feed.id } }" :key="feed.id" class="link">
             <feed :feed="feed" />
-          </a>
+          </router-link>
           <template v-if="(index + 1) % 3 === 0">
-            <a href="#" class="link" :key="`ads_${index}`">
+            <a :key="`ads_${index}`" href="#" class="link">
               <ads ref="ads" :ad="ads[getAdsIndex(index)]"></ads>
             </a>
           </template>
