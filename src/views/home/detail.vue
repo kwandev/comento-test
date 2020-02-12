@@ -95,12 +95,25 @@ export default {
 .card__question {
   border-color: $primary;
 }
-
 .divider {
   margin: 10px 0 15px;
 }
-
 .answer__user {
   color: $gray-600;
+}
+
+@media screen and (max-width: $contents-width-m) {
+  .detail {
+    padding: 20px 15px 0;
+  }
+  .card {
+    padding: 20px 0;
+    border-top: 1px solid $secondary;
+    border-bottom: 1px solid $secondary;
+    box-shadow: none;
+  }
+  .card__question {
+    border-color: $primary;
+  }
 }
 </style>
