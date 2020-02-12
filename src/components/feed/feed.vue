@@ -2,7 +2,7 @@
   <card>
     <div class="feed__type">
       <div class="feed__category">{{ feed.category_name }}</div>
-      <div class="feed__id">{{ feed.id }}</div>
+      <div class="feed__id">글번호 {{ feed.id }}</div>
     </div>
     <divider />
     <div class="feed__write">

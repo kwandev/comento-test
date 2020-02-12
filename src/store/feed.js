@@ -61,6 +61,9 @@ const mutations = {
   setOrd(state, ord) {
     state.ord = ord
   },
+  setLimit(state, limit) {
+    state.limit = limit
+  },
   setCategoryFilter(state, categoryFilter) {
     state.categoryFilter = categoryFilter
   }
@@ -131,7 +134,9 @@ const actions = {
       const localStorageCategoryFilter = localStorage.getItem('categoryFilter')
       commit(
         'setCategoryFilter',
-        localStorageCategoryFilter ? localStorageCategoryFilter.split(',') : list.map((item) => item.id)
+        localStorageCategoryFilter
+          ? localStorageCategoryFilter.split(',').map((item) => Number(item))
+          : list.map((item) => item.id)
       )
     } catch (error) {
       throw new Error(error)

@@ -8,7 +8,8 @@
         {{ feedDetail.contents }}
       </div>
       <div class="date">
-        {{ feedDetail.created_at }}
+        <span>{{ (feedDetail.user || {}).email }}</span>
+        <span>{{ feedDetail.created_at }}</span>
       </div>
     </card>
 
@@ -32,7 +33,8 @@
             {{ answer.contents }}
           </div>
           <div class="date">
-            {{ answer.created_at }}
+            <span>{{ answer.user.email }}</span>
+            <span>{{ answer.created_at }}</span>
           </div>
         </card>
       </li>
@@ -83,6 +85,8 @@ export default {
     margin-bottom: 15px;
   }
   .date {
+    display: flex;
+    justify-content: space-between;
     font-size: 0.8125rem;
     color: $gray-500;
   }

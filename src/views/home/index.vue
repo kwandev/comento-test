@@ -5,12 +5,22 @@
     </aside>
     <section class="home_contents">
       <div class="filter_wrap">
-        <ul class="orderd">
-          <li :class="{ active: ord === 'asc' }" @click="changeOrd('asc')">오름차순</li>
-          <li :class="{ active: ord === 'desc' }" @click="changeOrd('desc')">내림차순</li>
-        </ul>
+        <div class="order_wrap">
+          <ul class="orderd">
+            <li :class="{ active: ord === 'asc' }" @click="changeOrd('asc')">오름차순</li>
+            <li :class="{ active: ord === 'desc' }" @click="changeOrd('desc')">내림차순</li>
+          </ul>
+          <b-form-select
+            :value="limit"
+            :options="limitCount"
+            size="sm"
+            @change="changeLimit"
+            class="limit_count"
+          ></b-form-select>
+        </div>
         <btn variant="outline-secondary" size="xs" class="btn_filter" v-b-modal.modal_filter>필터</btn>
       </div>
+
       <div
         class="feed_list"
         v-infinite-scroll="getFeeds"
@@ -21,13 +31,15 @@
           <router-link :to="{ name: 'Detail', params: { id: feed.id } }" :key="feed.id" class="link">
             <feed :feed="feed" />
           </router-link>
-          <template v-if="(index + 1) % 3 === 0">
+          <template v-if="!adsView && (index + 1) % 3 === 0">
             <a :key="`ads_${index}`" href="#" class="link">
               <ads ref="ads" :ad="ads[getAdsIndex(index)]"></ads>
             </a>
           </template>
         </template>
       </div>
+
+      <loader v-if="loading" />
     </section>
 
     <modal-filter v-if="categories.length > 0" />
@@ -48,16 +60,39 @@ export default {
     ModalFilter
   },
   data() {
-    return {}
+    return {
+      limitCount: [
+        {
+          value: 10,
+          text: '10개씩 보기'
+        },
+        {
+          value: 20,
+          text: '20개씩 보기'
+        },
+        {
+          value: 30,
+          text: '30개씩 보기'
+        },
+        {
+          value: 50,
+          text: '50개씩 보기'
+        }
+      ]
+    }
   },
   computed: {
     ...mapState('feed', {
       loading: 'loading',
-      ord: 'ord'
+      ord: 'ord',
+      limit: 'limit'
     }),
     ...mapGetters('feed', {
       feeds: 'feeds',
       categories: 'categories'
+    }),
+    ...mapState('ads', {
+      adsView: 'adsView'
     }),
     ...mapGetters('ads', {
       ads: 'ads'
@@ -94,6 +129,11 @@ export default {
     getAdsIndex(feedIndex) {
       const adIndex = (feedIndex + 1) / 3 - 1
       return adIndex
+    },
+    changeLimit(limit) {
+      this.$store.dispatch('feed/initFeeds')
+      this.$store.commit('feed/setLimit', limit)
+      this.getFeeds()
     }
   },
   async created() {
@@ -168,6 +208,15 @@ export default {
   .btn_filter {
     margin-left: auto;
     color: $gray-500;
+  }
+}
+
+.order_wrap {
+  display: flex;
+  align-items: center;
+
+  .limit_count {
+    width: 120px;
   }
 }
 

@@ -3,7 +3,12 @@
     <div class="ads__type">sponsored</div>
     <div class="ads_contents_wrap">
       <div class="ads__image">
-        <img v-if="ad.id" :src="`https://cdn.comento.kr/assignment/${ad.img}`" :alt="ad.title" />
+        <b-img-lazy
+          v-if="ad.id"
+          v-bind="lazyOption"
+          :src="`https://cdn.comento.kr/assignment/${ad.img}`"
+          :alt="ad.title"
+        />
       </div>
       <div class="ads__contents">
         <h2 class="card__title">
@@ -30,6 +35,18 @@ export default {
       type: Object,
       required: true,
       default: () => ({})
+    }
+  },
+  data() {
+    return {
+      lazyOption: {
+        center: true,
+        fluidGrow: true,
+        blank: true,
+        blankColor: '#bbb',
+        width: 450,
+        height: 350
+      }
     }
   }
 }

@@ -5,14 +5,33 @@
       <btn icon class="btn__back" @click="back">
         &lt;
       </btn>
+
+      <b-dropdown size="lg" variant="link" right toggle-class="text-decoration-none" no-caret @click.stop.prevent>
+        <template v-slot:button-content>
+          <b-icon-gear class="icon__setting" />
+          <span class="sr-only">Search</span>
+        </template>
+        <b-dropdown-text>
+          <b-form-checkbox switch v-model="toggle" @change="changeAdsView">광고끄기</b-form-checkbox>
+        </b-dropdown-text>
+      </b-dropdown>
     </div>
   </header>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'CHeader',
+  data() {
+    return {
+      toggle: false
+    }
+  },
   computed: {
+    ...mapState('ads', {
+      adsView: 'adsView'
+    }),
     subPage() {
       return {
         sub_page: this.$route.path !== '/'
@@ -22,10 +41,15 @@ export default {
   methods: {
     back() {
       this.$router.back()
+    },
+    changeAdsView(switchValue) {
+      this.toggle = switchValue
+      localStorage.setItem('adsView', switchValue)
+      this.$store.commit('ads/adsView', switchValue)
     }
   },
-  created() {
-    console.log(this)
+  mounted() {
+    this.toggle = this.adsView
   }
 }
 </script>
@@ -44,11 +68,19 @@ export default {
   background-color: $white;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.07);
 }
+.container {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
 .title {
   font-size: 1rem;
 }
 .btn__back {
   display: none;
+}
+.icon__setting {
+  color: $gray-600;
 }
 
 @media screen and (max-width: $contents-width-m) {
@@ -64,7 +96,6 @@ export default {
     }
     .btn__back {
       display: inline-block;
-      margin-right: auto;
       font-size: 1.375rem;
       font-weight: 700;
     }

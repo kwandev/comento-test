@@ -4,7 +4,8 @@ const state = {
   ads: [],
   page: 0,
   lastPage: 0,
-  limit: 10
+  limit: 10,
+  adsView: localStorage.getItem('adsView') === 'true'
 }
 
 const getters = {
@@ -23,6 +24,9 @@ const mutations = {
     } else {
       state.ads = data
     }
+  },
+  adsView(state, isView) {
+    state.adsView = isView
   }
 }
 
