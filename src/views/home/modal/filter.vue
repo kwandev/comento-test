@@ -55,17 +55,15 @@ export default {
         this.initFilter()
       }
     },
-    async handleOk() {
+    handleOk() {
       if (this.filters.length === 0) {
         this.$bvModal.hide('modal_filter')
         return
       }
 
-      localStorage.setItem('categoryFilter', this.filters.toString())
-
       this.$store.commit('feed/setCategoryFilter', this.filters)
 
-      await this.$store.dispatch('feed/initFeeds')
+      this.$store.dispatch('feed/initFeeds')
       this.$store.dispatch('feed/fetchFeeds')
 
       this.$bvModal.hide('modal_filter')

@@ -18,14 +18,14 @@
             class="limit_count"
           ></b-form-select>
         </div>
-        <btn variant="outline-secondary" size="xs" class="btn_filter" v-b-modal.modal_filter>필터</btn>
+        <btn variant="outline-secondary" size="xs" v-b-modal.modal_filter class="btn_filter">필터</btn>
       </div>
 
       <div
-        class="feed_list"
         v-infinite-scroll="getFeeds"
         infinite-scroll-disabled="loading"
         infinite-scroll-distance="10"
+        class="feed_list"
       >
         <template v-for="(feed, index) in feeds">
           <router-link :to="{ name: 'Detail', params: { id: feed.id } }" :key="feed.id" class="link">
@@ -33,7 +33,7 @@
           </router-link>
           <template v-if="!adsView && (index + 1) % 3 === 0">
             <a :key="`ads_${index}`" href="#" class="link">
-              <ads ref="ads" :ad="ads[getAdsIndex(index)]"></ads>
+              <ads :ad="ads[getAdsIndex(index)]" />
             </a>
           </template>
         </template>
@@ -48,8 +48,8 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import Feed from '@/components/feed/feed'
-import Ads from '@/components/ads/ads'
+import Feed from '@/components/feed'
+import Ads from '@/components/ads'
 import ModalFilter from './modal/filter'
 
 export default {
@@ -108,14 +108,16 @@ export default {
   methods: {
     // 정렬 변경
     async changeOrd(ord) {
-      localStorage.setItem('ord', ord)
+      if (ord === this.ord) {
+        return
+      }
 
       this.$store.commit('feed/setOrd', ord)
 
-      await this.$store.dispatch('feed/initFeeds')
+      this.$store.dispatch('feed/initFeeds')
       this.getFeeds()
 
-      await this.$store.dispatch('ads/initAds')
+      this.$store.dispatch('ads/initAds')
       this.getAds()
     },
     // 피드 조회

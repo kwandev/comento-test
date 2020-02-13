@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <div class="container" :class="subPage">
-      <h1 class="title">[제출일] 이경환</h1>
+      <h1 class="title">[2020-02-13] 이경환</h1>
       <btn icon class="btn__back" @click="back">
         &lt;
       </btn>
@@ -44,7 +44,6 @@ export default {
     },
     changeAdsView(switchValue) {
       this.toggle = switchValue
-      localStorage.setItem('adsView', switchValue)
       this.$store.commit('ads/adsView', switchValue)
     }
   },

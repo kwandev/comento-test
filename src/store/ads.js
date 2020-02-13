@@ -27,6 +27,7 @@ const mutations = {
   },
   adsView(state, isView) {
     state.adsView = isView
+    localStorage.setItem('adsView', isView)
   }
 }
 

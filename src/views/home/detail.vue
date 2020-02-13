@@ -2,14 +2,14 @@
   <div class="detail">
     <card class="card__question">
       <h2 class="card__title">
-        {{ feedDetail.title }}
+        {{ detail.title }}
       </h2>
       <div class="card__contents">
-        {{ feedDetail.contents }}
+        {{ detail.contents }}
       </div>
       <div class="date">
-        <span>{{ (feedDetail.user || {}).email }}</span>
-        <span>{{ feedDetail.created_at }}</span>
+        <span>{{ (detail.user || {}).email }}</span>
+        <span>{{ detail.created_at }}</span>
       </div>
     </card>
 
@@ -18,7 +18,7 @@
     </div>
 
     <ul class="answer_list">
-      <li v-for="answer in feedDetail.reply" :key="answer.id">
+      <li v-for="answer in detail.reply" :key="answer.id">
         <card class="card__answer">
           <div class="answer__user">
             {{ answer.user.name }}
@@ -56,10 +56,10 @@ export default {
   },
   computed: {
     ...mapGetters('feed', {
-      feedDetail: 'feedDetail'
+      detail: 'feedDetail'
     }),
     answerCount() {
-      return (this.feedDetail.reply || []).length || 0
+      return (this.detail.reply || []).length || 0
     }
   },
   watch: {},

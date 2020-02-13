@@ -1,6 +1,6 @@
 # 코멘토 프론트엔드 개발자 사전과제
 
-깃허브 페이지로 확인 가능합니다.
+[https://khwan-comento.netlify.com/](https://khwan-comento.netlify.com/)
 
 ## ✔ 특이사항
 

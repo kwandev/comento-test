@@ -59,6 +59,7 @@ const mutations = {
     state.loading = loading
   },
   setOrd(state, ord) {
+    localStorage.setItem('ord', ord)
     state.ord = ord
   },
   setLimit(state, limit) {
@@ -66,6 +67,7 @@ const mutations = {
   },
   setCategoryFilter(state, categoryFilter) {
     state.categoryFilter = categoryFilter
+    localStorage.setItem('categoryFilter', categoryFilter.toString())
   }
 }
 
